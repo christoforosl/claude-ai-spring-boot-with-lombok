@@ -2,7 +2,6 @@
   "permissions": {
     "allow": [
       "Bash(mvn:*)",
-      "Bash(find /Users/pminkows/IdeaProjects/claude-ai-spring-boot/src -type f -name *.java)",
       "Bash(ls:*)",
       "Bash(jar tf:*)",
       "Bash(java:*)",
