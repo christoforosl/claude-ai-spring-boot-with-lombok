@@ -6,6 +6,15 @@
 
     <groupId>pl.piomin.services</groupId>
     <artifactId>claude-ai-spring-boot</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.34</version>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -31,47 +31,32 @@ Quick reference for common design patterns in Java.
 **Problem:** Telescoping constructors, many optional parameters
 
 ```java
-// ✅ Builder pattern
+// ✅ Builder pattern with Lombok
+@Builder
+@Getter
 public class User {
-    private final String name;  // required
-    private final String email; // required
-    private final int age;      // optional
-
-    private User(Builder builder) {
-        this.name = builder.name;
-        this.email = builder.email;
-        this.age = builder.age;
-    }
-
-    public static Builder builder(String name, String email) {
-        return new Builder(name, email);
-    }
-
-    public static class Builder {
-        private final String name;
-        private final String email;
-        private int age = 0;
-
-        private Builder(String name, String email) {
-            this.name = name;
-            this.email = email;
-        }
-
-        public Builder age(int age) {
-            this.age = age;
-            return this;
-        }
-
-        public User build() {
-            return new User(this);
-        }
-    }
+    private final String name;       // required
+    private final String email;      // required
+    @Builder.Default
+    private final int age = 0;       // optional, with default
 }
 
 // Usage
-User user = User.builder("John", "john@example.com")
+User user = User.builder()
+    .name("John")
+    .email("john@example.com")
     .age(30)
     .build();
+
+// Enforce required fields via @NonNull
+@Builder
+@Getter
+public class User {
+    @NonNull private final String name;
+    @NonNull private final String email;
+    @Builder.Default
+    private final int age = 0;
+}
 ```
 
 ### Factory

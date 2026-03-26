@@ -36,6 +36,6 @@
 - The Maven artifact name must be the same as the parent directory name.
 - Use semantic versioning for the Maven project. Each time you generate a new version, bump the PATCH section of the version number.
 - Use `pl.piomin.services` as the group ID for the Maven project and base Java package.
-- Do not use the Lombok library.
+- Always use Lombok to reduce boilerplate: `@RequiredArgsConstructor` for constructor injection, `@Getter`/`@Setter` on entities, `@Builder` for object construction in tests, `@Slf4j` for logging, `@Data` only for simple non-JPA POJOs. Never use `@Data` on JPA entities (use `@Getter`/`@Setter` instead to avoid issues with `equals`/`hashCode`).
 - Generate the Docker Compose file to run all components used by the application.
 - Update README.md each time you generate a new version.

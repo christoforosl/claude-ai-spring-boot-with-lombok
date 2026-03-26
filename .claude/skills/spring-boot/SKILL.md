@@ -29,6 +29,11 @@ Enterprise Spring Boot 3.x development with focus on clean architecture and prod
 ```java
 @Entity
 @Table(name = "products")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,8 +44,6 @@ public class Product {
 
     @DecimalMin("0.0")
     private BigDecimal price;
-
-    // Getters/Setters (no Lombok)
 }
 ```
 
@@ -54,13 +57,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 ### Service
 ```java
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ProductService {
     private final ProductRepository repo;
-
-    public ProductService(ProductRepository repo) {
-        this.repo = repo;
-    }
 
     public List<Product> search(String name) {
         return repo.findByNameContainingIgnoreCase(name);
@@ -68,10 +68,10 @@ public class ProductService {
 
     @Transactional
     public Product create(ProductRequest request) {
-        var product = new Product();
-        product.setName(request.name());
-        product.setPrice(request.price());
-        return repo.save(product);
+        return repo.save(Product.builder()
+            .name(request.name())
+            .price(request.price())
+            .build());
     }
 }
 ```
@@ -80,13 +80,10 @@ public class ProductService {
 ```java
 @RestController
 @RequestMapping("/api/v1/products")
+@RequiredArgsConstructor
 @Validated
 public class ProductController {
     private final ProductService service;
-
-    public ProductController(ProductService service) {
-        this.service = service;
-    }
 
     @GetMapping
     public List<Product> search(@RequestParam(defaultValue = "") String name) {
@@ -138,8 +135,7 @@ class ProductControllerTest {
 
     @Test
     void createProduct_validRequest_returns201() throws Exception {
-        var product = new Product();
-        product.setName("Widget");
+        var product = Product.builder().name("Widget").build();
         when(service.create(any())).thenReturn(product);
 
         mockMvc.perform(post("/api/v1/products")
@@ -166,13 +162,16 @@ Load detailed patterns based on context:
 ## Constraints
 
 ### MUST DO
-- Constructor injection (no field injection)
+- Constructor injection via `@RequiredArgsConstructor` (no field injection)
 - `@Valid` on all request bodies
 - `@Transactional` for multi-step writes
 - `@Transactional(readOnly = true)` for reads
 - Type-safe config with `@ConfigurationProperties`
 - Global exception handling with `@RestControllerAdvice`
 - Externalize secrets (use env vars, not properties files)
+- `@Getter`/`@Setter` on JPA entities (never `@Data` on entities)
+- `@Builder` on entities and domain objects for fluent construction
+- `@Slf4j` on classes that log (no manual `Logger` declarations)
 
 ### MUST NOT DO
 - Field injection (`@Autowired` on fields)
@@ -181,6 +180,8 @@ Load detailed patterns based on context:
 - Store secrets in application.properties
 - Use deprecated Spring Boot 2.x patterns
 - Hardcode URLs, credentials, environment values
+- Use `@Data` on JPA entities (breaks `equals`/`hashCode`/`toString` with lazy associations)
+- Write manual getters, setters, or constructors when Lombok covers them
 
 ## Architecture Patterns
 
@@ -269,4 +270,4 @@ public class SecurityConfig {
 
 ## Knowledge Base
 
-Spring Boot 3.x, Java 21, Spring WebFlux, Project Reactor, Spring Data JPA, Spring Security 6, OAuth2/JWT, Hibernate, R2DBC, Spring Cloud, Resilience4j, Micrometer, JUnit 5, TestContainers, Mockito, Maven/Gradle
+Spring Boot 3.x, Java 21, Spring WebFlux, Project Reactor, Spring Data JPA, Spring Security 6, OAuth2/JWT, Hibernate, R2DBC, Spring Cloud, Resilience4j, Micrometer, JUnit 5, TestContainers, Mockito, Maven/Gradle, Lombok

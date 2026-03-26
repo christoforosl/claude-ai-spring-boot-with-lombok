@@ -4,6 +4,8 @@ This template provides a structured starting point for Spring Boot applications,
 
 The idea behind this template is that you can just clone this repository and use it to generate the app you want with Claude Code.
 
+NOTE: Microsoft CoPilot also uses and reads skills and agents.
+
 ```shell
 .
 ├── .claude
