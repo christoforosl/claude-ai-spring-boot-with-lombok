@@ -56,4 +56,8 @@ NOTE: Microsoft CoPilot also uses and reads skills and agents.
 └── pom.xml
 ```
 
-You can find the detailed explanation and description of that that template in my post [Claude Code Template for Spring Boot](https://piotrminkowski.com/2026/03/24/claude-code-template-for-spring-boot/).
+You can find the detailed explanation and description of this template in Piotr Minkowski's post [Claude Code Template for Spring Boot](https://piotrminkowski.com/2026/03/24/claude-code-template-for-spring-boot/).
+
+## Credits
+
+This repository is based on the original work by [Piotr Minkowski](https://github.com/piomin). The original repository can be found at [https://github.com/piomin/claude-ai-spring-boot](https://github.com/piomin/claude-ai-spring-boot).
