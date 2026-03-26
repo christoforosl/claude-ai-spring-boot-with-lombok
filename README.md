@@ -1,5 +1,7 @@
 # Claude Code Template for Spring Boot Application
 
+> **Credits:** This repository is forked from [piomin/claude-ai-spring-boot](https://github.com/piomin/claude-ai-spring-boot) by [Piotr Minkowski](https://github.com/piomin). The only changes in this fork concern the use of **Lombok** to reduce boilerplate code.
+
 This template provides a structured starting point for Spring Boot applications, optimized for Claude AI's code completion capabilities. It includes essential configurations and best practices to streamline development and enhance productivity.
 
 The idea behind this template is that you can just clone this repository and use it to generate the app you want with Claude Code.
